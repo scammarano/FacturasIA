@@ -109,4 +109,5 @@ const InvoiceUploader: React.FC<InvoiceUploaderProps> = ({ activePrompt, onQueue
   );
 };
 
+// Fix: Adding default export
 export default InvoiceUploader;

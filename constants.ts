@@ -9,14 +9,14 @@ export const INITIAL_USERS: User[] = [
 
 export const INITIAL_ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
   Admin: {
-    allowedTabs: ['dashboard', 'upload', 'invoices', 'companies', 'suppliers', 'categories', 'prompts', 'users', 'roles', 'audit'],
+    allowedTabs: ['dashboard', 'upload', 'invoices', 'companies', 'suppliers', 'categories', 'prompts', 'integrations', 'users', 'roles', 'audit'],
     canEditInvoices: true,
     canDeleteInvoices: true,
     canManageMasters: true,
     canManageSystem: true
   },
   Editor: {
-    allowedTabs: ['dashboard', 'upload', 'invoices', 'companies', 'suppliers', 'categories'],
+    allowedTabs: ['dashboard', 'upload', 'invoices', 'companies', 'suppliers', 'categories', 'integrations'],
     canEditInvoices: true,
     canDeleteInvoices: false,
     canManageMasters: true,

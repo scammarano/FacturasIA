@@ -1,39 +1,54 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+interface IntegrationConfig {
+  webhookUrl: string;
+  apiKey: string;
+  autoSync: boolean;
+  targetSystem: string;
+}
 
 const Integrations: React.FC = () => {
-  const [config, setConfig] = useState({
+  const [config, setConfig] = useState<IntegrationConfig>({
     webhookUrl: '',
     apiKey: '',
     autoSync: false,
     targetSystem: 'SAP Business One'
   });
 
+  useEffect(() => {
+    const savedConfig = localStorage.getItem('sm_integration_config');
+    if (savedConfig) {
+      setConfig(JSON.parse(savedConfig));
+    }
+  }, []);
+
   const handleSave = () => {
-    alert("Configuración de integración actualizada. El sistema ahora intentará sincronizar facturas validadas.");
+    localStorage.setItem('sm_integration_config', JSON.stringify(config));
+    alert("Configuración de integración actualizada con éxito. El sistema ahora intentará sincronizar facturas validadas según sus preferencias.");
   };
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <div className="flex items-center space-x-4 mb-8">
-           <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-slate-100">
+        <div className="flex items-center space-x-6 mb-12">
+           <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-[2rem] flex items-center justify-center shadow-lg shadow-blue-50">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
            </div>
            <div>
-              <h2 className="text-2xl font-bold text-gray-800">Conectividad Administrativa</h2>
-              <p className="text-sm text-gray-500">Enlace este sistema con su ERP o Software Contable preferido.</p>
+              <h2 className="text-3xl font-black text-slate-800 tracking-tighter uppercase">Conectividad ERP</h2>
+              <p className="text-[10px] text-blue-500 font-black uppercase tracking-widest mt-1">Interoperabilidad mediante API & Webhooks</p>
            </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Sistema Destino</label>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="space-y-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-1">Sistema Administrativo / ERP</label>
               <select 
-                className="w-full border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-purple-500 outline-none"
+                className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 p-4 rounded-2xl font-black text-slate-700 outline-none transition"
                 value={config.targetSystem}
                 onChange={e => setConfig({...config, targetSystem: e.target.value})}
               >
@@ -45,70 +60,81 @@ const Integrations: React.FC = () => {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">URL del Webhook / API Endpoint</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-1">URL del Webhook (Endpoint)</label>
               <input 
                 type="url" 
-                placeholder="https://api.tuempresa.com/v1/facturas"
-                className="w-full border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-purple-500 outline-none font-mono text-sm"
+                placeholder="https://api.empresa.com/v1/sync"
+                className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 p-4 rounded-2xl font-mono text-sm font-bold text-blue-600 outline-none transition"
                 value={config.webhookUrl}
                 onChange={e => setConfig({...config, webhookUrl: e.target.value})}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">API Key / Token de Acceso</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-1">Token / API Key de Autorización</label>
               <input 
                 type="password" 
                 placeholder="••••••••••••••••••••••••"
-                className="w-full border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-purple-500 outline-none font-mono text-sm"
+                className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 p-4 rounded-2xl font-mono text-sm outline-none transition"
                 value={config.apiKey}
                 onChange={e => setConfig({...config, apiKey: e.target.value})}
               />
             </div>
 
-            <div className="flex items-center space-x-3 p-4 bg-purple-50 rounded-xl border border-purple-100">
-               <input 
-                type="checkbox" 
-                className="w-5 h-5 text-purple-600 rounded"
-                checked={config.autoSync}
-                onChange={e => setConfig({...config, autoSync: e.target.checked})}
-               />
-               <label className="text-sm text-purple-900 font-semibold italic">
-                  Sincronización automática al validar factura (Real-time)
-               </label>
+            <div className="flex items-center space-x-4 p-6 bg-blue-50 rounded-[2rem] border border-blue-100">
+               <div className="relative inline-flex items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    className="sr-only peer"
+                    checked={config.autoSync}
+                    onChange={e => setConfig({...config, autoSync: e.target.checked})}
+                  />
+                  <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+               </div>
+               <span className="text-[10px] text-blue-900 font-black uppercase tracking-widest leading-tight">
+                  Sincronización automática en tiempo real
+               </span>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-2xl p-6 text-white font-mono text-xs overflow-hidden">
-             <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
-                <span className="text-gray-400">Payload Preview (JSON)</span>
-                <span className="text-green-500 uppercase font-bold text-[10px]">Ready</span>
+          <div className="bg-[#1e293b] rounded-[3rem] p-10 text-white font-mono text-[10px] overflow-hidden shadow-2xl relative">
+             <div className="absolute top-0 right-0 p-8 opacity-5">
+                <svg className="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
              </div>
-             <pre className="text-blue-300">
+             <div className="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <span className="text-blue-400 font-black uppercase tracking-widest">Esquema de Datos (JSON)</span>
+                <span className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[8px] font-black uppercase">Válido</span>
+             </div>
+             <pre className="text-slate-300 whitespace-pre-wrap">
 {`{
   "event": "invoice_validated",
-  "data": {
-    "id": "INV-8374",
-    "rif_supplier": "J-1234567-8",
-    "total": 1250.00,
+  "metadata": {
+    "target": "${config.targetSystem}",
+    "source": "SmartInvoice AI"
+  },
+  "payload": {
+    "id": "INV-X8374",
+    "provider_rif": "J-1234567-8",
+    "amount_bs": 12500.00,
     "currency": "USD",
-    "items": [...],
-    "digital_copy": "https://cdn.sm...png"
+    "digital_link": "https://vault.sm...png"
   },
   "timestamp": "${new Date().toISOString()}"
 }`}
              </pre>
-             <p className="mt-8 text-gray-500 italic">Este bloque muestra el formato de datos que será enviado a su servidor central cada vez que se apruebe una factura.</p>
+             <p className="mt-10 text-slate-500 italic text-[9px] leading-relaxed">
+                Este bloque representa el estándar de intercambio de datos. SmartInvoice enviará este objeto a su sistema destino cada vez que un operador apruebe un documento.
+             </p>
           </div>
         </div>
 
         <div className="mt-12 flex justify-end">
            <button 
             onClick={handleSave}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-3 rounded-xl font-bold shadow-xl shadow-purple-100 transition transform active:scale-95"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-5 rounded-[2rem] font-black shadow-2xl shadow-blue-200 transition transform active:scale-95 text-xs uppercase tracking-widest"
            >
-            Guardar Configuración de Integración
+            Implementar Configuración ERP
            </button>
         </div>
       </div>

@@ -250,4 +250,5 @@ const InvoiceValidator: React.FC<InvoiceValidatorProps> = ({
   );
 };
 
+// Fix: Adding default export
 export default InvoiceValidator;

@@ -9,6 +9,7 @@ import PromptManager from './components/PromptManager';
 import MasterDataManager from './components/MasterDataManager';
 import UserManagement from './components/UserManagement';
 import RoleManagement from './components/RoleManagement';
+import Integrations from './components/Integrations';
 import { Invoice, Company, Supplier, ExpenseCategory, AIPrompt, AuditLog, ProcessingItem, User, UserRole, RolePermissions } from './types';
 import { INITIAL_COMPANIES, EXPENSE_CATEGORIES, INITIAL_PROMPTS, INITIAL_USERS, INITIAL_ROLE_PERMISSIONS } from './constants';
 
@@ -99,7 +100,6 @@ const App: React.FC = () => {
 
     genericSave('sm_invoices', updatedInvoices, setInvoices);
     
-    // Si terminamos la cola o no hay más
     if (processingQueue.length <= currentQueueIndex + 1) {
         setProcessingQueue([]);
         setCurrentQueueIndex(0);
@@ -185,6 +185,8 @@ const App: React.FC = () => {
         return <RoleManagement rolePermissions={rolePermissions} onUpdatePermissions={handleUpdateRolePermissions} />;
       case 'prompts':
         return <PromptManager prompts={prompts} onUpdate={(id, content) => genericSave('sm_prompts', prompts.map(p => p.id === id ? { ...p, content } : p), setPrompts)} />;
+      case 'integrations':
+        return <Integrations />;
       case 'audit':
         return (
           <div className="bg-white rounded-[2.5rem] shadow-sm overflow-hidden border border-slate-100">

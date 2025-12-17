@@ -36,6 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpen, curr
       label: 'SISTEMA',
       items: [
         { id: 'prompts', icon: 'M13 10V3L4 14h7v7l9-11h-7z', label: 'Motor IA' },
+        { id: 'integrations', icon: 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z', label: 'Conectividad ERP' },
         { id: 'users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197', label: 'Usuarios' },
         { id: 'roles', icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4', label: 'Habilidades' },
         { id: 'audit', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', label: 'Seguridad' },
@@ -107,4 +108,5 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpen, curr
   );
 };
 
+// Fix: Adding default export
 export default Sidebar;

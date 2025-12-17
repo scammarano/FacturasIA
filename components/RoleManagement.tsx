@@ -107,4 +107,5 @@ const RoleManagement: React.FC<RoleManagementProps> = ({ rolePermissions, onUpda
   );
 };
 
+// Fix: Adding default export
 export default RoleManagement;
