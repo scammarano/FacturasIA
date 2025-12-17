@@ -1,0 +1,7 @@
+{
+  "name": "SmartInvoice AI - Gestión de Facturas Inteligente",
+  "description": "Sistema avanzado para la gestión de facturas mediante IA, con extracción automática de datos, validación manual y dashboard analítico.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
